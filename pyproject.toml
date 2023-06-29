@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "cowriter"
+version = "0.1.0"
+description = ""
+authors = ["Ahmed Besbes <ahmed.besbes@hotmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+langchain = "^0.0.218"
+rich = "^13.4.2"
+python-dotenv = "^1.0.0"
+openai = "^0.27.8"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.3.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

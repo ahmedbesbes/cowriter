@@ -8,7 +8,11 @@ load_dotenv()
 
 def main():
     intro()
-    topic = Prompt.ask(f"What topic are you interested to write about")
+    topic = Prompt.ask(
+        f"[bold purple]Type in a topic you are interested to write about 🖊️ [bold purple/]",
+        default="python decorators",
+    )
+
     cowriter_agent = CowriterAgent(topic)
     cowriter_agent.run()
 

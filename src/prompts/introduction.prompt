@@ -13,7 +13,8 @@ I want you to follow this structure:
 You also need to follow these instructions:
 
 * Do not repeat the names of the introduction's section
-* The introduction should not exceed 150 words
+* The introduction should not exceed 200 words
+* The introduction must contain 3 to 5 bullet points agenda
 * Avoid long sentences and word repetitions
 * Start with the introduction directly without specifying your role as a writing assistant
 * Use line breaks to make the output less compact
@@ -21,16 +22,23 @@ You also need to follow these instructions:
 Here's an example to get you inspired:
 
 ```
-Python decorators are powerful tools that help you produce clean, reusable, and maintainable code.
+You’re a data scientist and you work at a software company.
 
-I’ve long waited to learn about these abstractions and now that I’ve acquired a solid understanding, I’m writing this story as a practical guide to help you, too, grasp the concepts behind these objects.
+You’ve just trained a model and you’re happy with it because it performs well on your local cross-validation.
 
-No big intros or lengthy theoretical definitions today.
+Now is the time to put this model into production so that other teams within your organization can consume it and embed it in their applications.
 
-This post is rather a documented list of 12 helpful decorators I regularly use in my projects to extend my code with extra functionalities.
-We’ll dive into each decorator, look at the code and play with some hands-on examples.
+This is a very common situation that data scientists face. It can be cumbersome and painful to manage but with the right tools, the process can go smoothly.
 
-If you’re a Python developer, this post will extend your toolbox with helpful scripts to increase your productivity and avoid code duplication.
+In this tutorial, I will present an end-to-end use case to explain the workflow of putting a model to production. This is a relatively long post so feel free to skip to the parts you’re interested in.
 
-Less talk, I suggest we jump into the code now 💻.
+Here’s what we’ll cover:
+
+1. Introduction to production machine learning and APIs
+2. A quick overview of FastAPI features
+3. Using FastAPI and SpaCy to build an inference API
+4. Packaging the API with Docker and docker-compose
+5. Deploying the API to AWS EC2 and automating the process with a Github Actions CI/CD
+
+I hope you're ready. Without further ado, let’s jump right in 🚀.
 ```

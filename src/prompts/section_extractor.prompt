@@ -1,0 +1,8 @@
+Given the following introduction, identify the sections of the post that are outlined in bullet points. 
+If the text doesn't contain any bullet point, the output is empty.
+
+Format the output in JSON format with a "sections" key that contains a list of the section.
+
+Here is the introduction:
+
+{introduction}

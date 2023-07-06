@@ -13,7 +13,7 @@ def main():
         default="python decorators",
     )
 
-    cowriter_agent = CowriterAgent(topic)
+    cowriter_agent = CowriterAgent(topic, autopilot=True)
     cowriter_agent.run()
 
 

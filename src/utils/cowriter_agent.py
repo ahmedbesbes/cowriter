@@ -5,7 +5,6 @@ from rich.prompt import Confirm, Prompt
 from langchain.prompts import PromptTemplate
 from langchain.callbacks import get_openai_callback
 from src.utils.llms import get_chain
-from src.utils.display import print_ai_message
 
 
 class CowriterAgent(object):
@@ -21,17 +20,9 @@ class CowriterAgent(object):
     def generate_section(
         self,
         input_query: str,
-        spinner_message: str,
     ):
         with get_openai_callback() as cb:
-            # with self.console.status(
-            #     f"{spinner_message} \n",
-            #     spinner="aesthetic",
-            #     speed=1.5,
-            #     spinner_style="red",
-            # ):
             response = self.chain.run(input_query)
-            print_ai_message(response)
             self.total_cost += cb.total_cost
         return response
 
@@ -47,15 +38,24 @@ class CowriterAgent(object):
             input_query = Prompt.ask("What do you want to write in the next section?")
             spinner_message = "Generating section ..."
 
-        response = self.generate_section(input_query, spinner_message)
+        response = self.generate_section(input_query)
 
-        is_happy = Confirm.ask("Are you happy with the answer?")
+        is_happy = Confirm.ask(
+            "\n\nAre you happy with the answer?",
+            default=True,
+        )
         while not is_happy:
             refine_query = Prompt.ask("Tell us how to improve it")
-            response = self.generate_section(refine_query, "Improving the answer ...")
-            is_happy = Confirm.ask("Are you happy with the answer?")
+            response = self.generate_section(refine_query)
+            is_happy = Confirm.ask(
+                "Are you happy with the answer?",
+                default=True,
+            )
 
-        save = Confirm.ask("Great, would you like to save this answer to a file?")
+        save = Confirm.ask(
+            "Great, would you like to save this answer to a file?",
+            default=True,
+        )
 
         if save:
             with open(self.file_name, "a") as f:

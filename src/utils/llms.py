@@ -1,7 +1,9 @@
 from functools import lru_cache
+import json
 from pathlib import Path
 from rich.console import Console
 from langchain.prompts import (
+    PromptTemplate,
     ChatPromptTemplate,
     SystemMessagePromptTemplate,
     MessagesPlaceholder,
@@ -9,7 +11,7 @@ from langchain.prompts import (
 )
 from langchain.chat_models import ChatOpenAI
 from langchain.memory import ConversationBufferWindowMemory
-from langchain.chains import ConversationChain
+from langchain.chains import ConversationChain, LLMChain
 from langchain.callbacks import StreamingStdOutCallbackHandler
 
 console = Console()
@@ -46,3 +48,19 @@ def get_chain(use_streaming=False):
         prompt=chat_prompt,
     )
     return chain
+
+
+def generate_sections_from_introduction(introduction: str):
+    llm = ChatOpenAI(temperature=0.8)
+    prompt = PromptTemplate(
+        template=Path("src/prompts/section_extractor.prompt").read_text(),
+        input_variables=["introduction"],
+    )
+    chain = LLMChain(
+        llm=llm,
+        prompt=prompt,
+    )
+    sections = chain.run(introduction)
+    sections = json.loads(sections)
+    sections = sections["sections"]
+    return sections

@@ -111,7 +111,11 @@ class CowriterAgent(object):
             add_section = Confirm.ask("Add a section ?", default=True)
             section_number = 0
             while add_section:
-                self.write_section(default_value=sections[section_number])
+                self.write_section(
+                    default_value=sections[section_number]
+                    if section_number < len(sections)
+                    else None
+                )
                 add_section = Confirm.ask(
                     "Add a section ?",
                     default=True,

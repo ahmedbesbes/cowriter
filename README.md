@@ -4,6 +4,8 @@ Cowriter helps you automatically or semi-automatically write technical blog post
 
 It first asks you about a topic of interest, then guides you through the process of writing the introduction as well as the subsequent sections.
 
+It can also go wild in autopilot mode (use this responsibly)
+
 <p align="center">
     <img src="./assets/cowriter.png" width="90%">
 </p>

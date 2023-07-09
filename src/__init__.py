@@ -10,3 +10,4 @@ logging.basicConfig(
     handlers=[RichHandler(rich_tracebacks=True, tracebacks_suppress=[click])],
 )
 logger = logging.getLogger(LOGGER_NAME)
+logging.getLogger("numexpr").setLevel(logging.ERROR)

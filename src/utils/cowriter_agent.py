@@ -1,3 +1,4 @@
+import os
 from datetime import datetime
 from pathlib import Path
 from rich.console import Console
@@ -9,19 +10,19 @@ from src.utils.llms import generate_sections_from_introduction, get_chain
 
 
 class CowriterAgent(object):
-    def __init__(self, topic, autopilot=False):
-        self.total_cost = 0
+    def __init__(self, topic, output_folder="src/answers/", autopilot=False):
         self.topic = topic
         self.autopilot = autopilot
         self.chain = get_chain(use_streaming=True)
         self.console = Console()
-        self.file_name = (
-            f"src/answers/{self.topic}_{str(datetime.now().replace(microsecond=0))}.md"
+        self.file_name = os.path.join(
+            output_folder,
+            f"{self.topic}_{str(datetime.now().replace(microsecond=0))}.md",
         )
         if self.autopilot:
             logger.info("starting CowriterAgent in autopilot mode")
 
-    def generate_section(
+    def run_chain_on_query(
         self,
         input_query: str,
     ):
@@ -60,7 +61,7 @@ class CowriterAgent(object):
             else:
                 logger.info(f"generating the following section: {default_value}")
 
-        response = self.generate_section(input_query)
+        response = self.run_chain_on_query(input_query)
 
         if self.autopilot:
             is_happy = True
@@ -71,7 +72,7 @@ class CowriterAgent(object):
             )
             while not is_happy:
                 refine_query = Prompt.ask("Tell us how to improve it")
-                response = self.generate_section(refine_query)
+                response = self.run_chain_on_query(refine_query)
                 is_happy = Confirm.ask(
                     "Are you happy with the answer?",
                     default=True,
@@ -101,7 +102,9 @@ class CowriterAgent(object):
             speed=1.5,
             spinner_style="red",
         ):
-            sections = generate_sections_from_introduction(introduction)
+            with get_openai_callback() as cb:
+                sections = generate_sections_from_introduction(introduction)
+                self.total_cost += cb.total_cost
 
         if self.autopilot:
             for section in sections:

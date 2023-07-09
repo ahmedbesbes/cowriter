@@ -2,7 +2,7 @@
 name = "aiohttp"
 version = "3.8.4"
 description = "Async http client/server framework (asyncio)"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.6"
 
@@ -106,7 +106,7 @@ colorama = {version = "*", markers = "platform_system == \"Windows\""}
 name = "colorama"
 version = "0.4.6"
 description = "Cross-platform colored terminal text."
-category = "main"
+category = "dev"
 optional = false
 python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,!=3.6.*,>=2.7"
 
@@ -299,7 +299,7 @@ python-versions = ">=3.9"
 name = "openai"
 version = "0.27.8"
 description = "Python client library for the OpenAI API"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.7.1"
 
@@ -399,6 +399,14 @@ optional = false
 python-versions = ">=3.6"
 
 [[package]]
+name = "regex"
+version = "2023.6.3"
+description = "Alternative regular expression module, to replace re."
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[[package]]
 name = "requests"
 version = "2.31.0"
 description = "Python HTTP for Humans."
@@ -479,6 +487,21 @@ python-versions = ">=3.6"
 doc = ["reno", "sphinx", "tornado (>=4.5)"]
 
 [[package]]
+name = "tiktoken"
+version = "0.4.0"
+description = "tiktoken is a fast BPE tokeniser for use with OpenAI's models"
+category = "main"
+optional = false
+python-versions = ">=3.8"
+
+[package.dependencies]
+regex = ">=2022.1.18"
+requests = ">=2.26.0"
+
+[package.extras]
+blobfile = ["blobfile (>=2)"]
+
+[[package]]
 name = "tomli"
 version = "2.0.1"
 description = "A lil' TOML parser"
@@ -490,7 +513,7 @@ python-versions = ">=3.7"
 name = "tqdm"
 version = "4.65.0"
 description = "Fast, Extensible Progress Meter"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.7"
 
@@ -552,7 +575,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "fc69358a9b3b241c49ed8c9da4d4f52c179567fd63ebaa9c2a920846694ec4d2"
+content-hash = "82bbc8a2ecf4221f498ff182a4c86fbb037bedb2e7bbaa0730521bbcdbdac40f"
 
 [metadata.files]
 aiohttp = []
@@ -587,10 +610,12 @@ pydantic = []
 pygments = []
 python-dotenv = []
 pyyaml = []
+regex = []
 requests = []
 rich = []
 sqlalchemy = []
 tenacity = []
+tiktoken = []
 tomli = []
 tqdm = []
 typing-extensions = []

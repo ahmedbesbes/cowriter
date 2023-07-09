@@ -13,7 +13,8 @@ def main():
         default="python decorators",
     )
     autopilot = Confirm.ask(
-        "[bold purple]Use autopilot mode[bold purple/]", default=False
+        "[bold purple]Use autopilot mode[bold purple/]",
+        default=False,
     )
 
     cowriter_agent = CowriterAgent(topic, autopilot=autopilot)

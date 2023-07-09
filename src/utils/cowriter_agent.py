@@ -13,7 +13,8 @@ class CowriterAgent(object):
     def __init__(self, topic, output_folder="src/answers/", autopilot=False):
         self.topic = topic
         self.autopilot = autopilot
-        self.chain = get_chain(use_streaming=True)
+        self.total_cost = 0
+        self.chain = get_chain(use_streaming=True if not autopilot else False)
         self.console = Console()
         self.file_name = os.path.join(
             output_folder,
@@ -22,13 +23,25 @@ class CowriterAgent(object):
         if self.autopilot:
             logger.info("starting CowriterAgent in autopilot mode")
 
-    def run_chain_on_query(
+    def _run_chain_on_query(
         self,
         input_query: str,
     ):
-        with get_openai_callback() as cb:
+        if self.autopilot:
+            with self.console.status(
+                "Writing :pen: ...\n",
+                spinner="aesthetic",
+                speed=1.5,
+                spinner_style="red",
+            ):
+                with get_openai_callback() as cb:
+                    response = self.chain.run(input_query)
+                    self.total_cost += cb.total_cost
+
+            logger.info(f"TOTAL COST : {self.total_cost}")
+        else:
             response = self.chain.run(input_query)
-            self.total_cost += cb.total_cost
+
         return response
 
     def write_section(
@@ -61,7 +74,7 @@ class CowriterAgent(object):
             else:
                 logger.info(f"generating the following section: {default_value}")
 
-        response = self.run_chain_on_query(input_query)
+        response = self._run_chain_on_query(input_query)
 
         if self.autopilot:
             is_happy = True
@@ -72,7 +85,7 @@ class CowriterAgent(object):
             )
             while not is_happy:
                 refine_query = Prompt.ask("Tell us how to improve it")
-                response = self.run_chain_on_query(refine_query)
+                response = self._run_chain_on_query(refine_query)
                 is_happy = Confirm.ask(
                     "Are you happy with the answer?",
                     default=True,

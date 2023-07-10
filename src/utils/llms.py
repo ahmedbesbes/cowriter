@@ -18,7 +18,7 @@ console = Console()
 
 
 @lru_cache(maxsize=None)
-def get_chain(use_streaming=False):
+def get_chain(model_name, use_streaming=False):
     chat_prompt = ChatPromptTemplate.from_messages(
         [
             SystemMessagePromptTemplate.from_template(
@@ -31,11 +31,20 @@ def get_chain(use_streaming=False):
 
     callbacks = [StreamingStdOutCallbackHandler()] if use_streaming else None
 
-    llm = ChatOpenAI(
-        temperature=0.8,
-        streaming=use_streaming,
-        callbacks=callbacks,
-    )
+    if model_name == "gpt3.5":
+        llm = ChatOpenAI(
+            model_name="gpt-3.5-turbo",
+            temperature=0.8,
+            streaming=use_streaming,
+            callbacks=callbacks,
+        )
+    elif model_name == "gpt4":
+        llm = ChatOpenAI(
+            model_name="gpt-4",
+            temperature=0.8,
+            streaming=use_streaming,
+            callbacks=callbacks,
+        )
 
     memory = ConversationBufferWindowMemory(
         k=5,

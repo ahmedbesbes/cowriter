@@ -12,12 +12,23 @@ def main():
         f"[bold purple]Type in a topic you are interested to write about 🖊️ [bold purple/]",
         default="python decorators",
     )
+
+    model_name = Prompt.ask(
+        "[bold purple]Pick a model[bold purple/]",
+        choices=["gpt3.5", "gpt4"],
+        default="gpt3.5",
+    )
+
     autopilot = Confirm.ask(
         "[bold purple]Use autopilot mode[bold purple/]",
         default=False,
     )
 
-    cowriter_agent = CowriterAgent(topic, autopilot=autopilot)
+    cowriter_agent = CowriterAgent(
+        topic,
+        model_name=model_name,
+        autopilot=autopilot,
+    )
     cowriter_agent.run()
 
 

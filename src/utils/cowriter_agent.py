@@ -10,11 +10,21 @@ from src.utils.llms import generate_sections_from_introduction, get_chain
 
 
 class CowriterAgent(object):
-    def __init__(self, topic, output_folder="src/answers/", autopilot=False):
+    def __init__(
+        self,
+        topic,
+        output_folder="src/answers/",
+        model_name="gpt3.5",
+        autopilot=False,
+    ):
         self.topic = topic
         self.autopilot = autopilot
         self.total_cost = 0
-        self.chain = get_chain(use_streaming=True if not autopilot else False)
+        self.model_name = model_name
+        self.chain = get_chain(
+            self.model_name,
+            use_streaming=True if not autopilot else False,
+        )
         self.console = Console()
         self.file_name = os.path.join(
             output_folder,

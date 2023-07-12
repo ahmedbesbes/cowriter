@@ -94,10 +94,10 @@ class CowriterAgent(object):
                 default=True,
             )
             while not is_happy:
-                refine_query = Prompt.ask("Tell us how to improve it")
+                refine_query = Prompt.ask("\n\nTell us how to improve it")
                 response = self._run_chain_on_query(refine_query)
                 is_happy = Confirm.ask(
-                    "Are you happy with the answer?",
+                    "\n\nAre you happy with the answer?",
                     default=True,
                 )
 
@@ -105,7 +105,7 @@ class CowriterAgent(object):
             save = True
         else:
             save = Confirm.ask(
-                "Great, would you like to save this answer to a file?",
+                "\n\nGreat, would you like to save this answer to a file?",
                 default=True,
             )
 

@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 from rich.prompt import Prompt, Confirm
 from src.utils.cowriter_agent import CowriterAgent
-from src.utils.display import intro
+from src.utils.display import intro, set_temperature
 
 load_dotenv()
 
@@ -19,6 +19,8 @@ def main():
         default="gpt3.5",
     )
 
+    model_temperature = set_temperature()
+
     autopilot = Confirm.ask(
         "[bold purple]Use autopilot mode[bold purple/]",
         default=False,
@@ -28,6 +30,7 @@ def main():
         topic,
         model_name=model_name,
         autopilot=autopilot,
+        temperature=model_temperature,
     )
     cowriter_agent.run()
 

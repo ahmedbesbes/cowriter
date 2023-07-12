@@ -16,6 +16,7 @@ class CowriterAgent(object):
         output_folder="src/answers/",
         model_name="gpt3.5",
         autopilot=False,
+        temperature=0.8,
     ):
         self.topic = topic
         self.autopilot = autopilot
@@ -23,6 +24,7 @@ class CowriterAgent(object):
         self.model_name = model_name
         self.chain = get_chain(
             self.model_name,
+            temperature=temperature,
             use_streaming=True if not autopilot else False,
         )
         self.console = Console()

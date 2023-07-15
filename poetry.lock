@@ -354,6 +354,18 @@ docs = ["furo (>=2023.5.20)", "proselint (>=0.13)", "sphinx-autodoc-typehints (>
 test = ["appdirs (==1.4.4)", "covdefaults (>=2.3)", "pytest-cov (>=4.1)", "pytest-mock (>=3.10)", "pytest (>=7.3.1)"]
 
 [[package]]
+name = "pyairtable"
+version = "1.5.0"
+description = "Python Client for the Airtable API"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+requests = ">=2.22.0"
+urllib3 = "<2"
+
+[[package]]
 name = "pydantic"
 version = "1.10.9"
 description = "Data validation and settings management using python type hints"
@@ -402,7 +414,7 @@ python-versions = ">=3.6"
 name = "regex"
 version = "2023.6.3"
 description = "Alternative regular expression module, to replace re."
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.6"
 
@@ -490,7 +502,7 @@ doc = ["reno", "sphinx", "tornado (>=4.5)"]
 name = "tiktoken"
 version = "0.4.0"
 description = "tiktoken is a fast BPE tokeniser for use with OpenAI's models"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.8"
 
@@ -548,17 +560,16 @@ typing-extensions = ">=3.7.4"
 
 [[package]]
 name = "urllib3"
-version = "2.0.3"
+version = "1.26.16"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
-category = "dev"
+category = "main"
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*"
 
 [package.extras]
-brotli = ["brotli (>=1.0.9)", "brotlicffi (>=0.8.0)"]
-secure = ["certifi", "cryptography (>=1.9)", "idna (>=2.0.0)", "pyopenssl (>=17.1.0)", "urllib3-secure-extra"]
-socks = ["pysocks (>=1.5.6,!=1.5.7,<2.0)"]
-zstd = ["zstandard (>=0.18.0)"]
+brotli = ["brotlicffi (>=0.8.0)", "brotli (>=1.0.9)", "brotlipy (>=0.6.0)"]
+secure = ["pyOpenSSL (>=0.14)", "cryptography (>=1.3.4)", "idna (>=2.0.0)", "certifi", "urllib3-secure-extra", "ipaddress"]
+socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 
 [[package]]
 name = "yarl"
@@ -575,7 +586,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "82bbc8a2ecf4221f498ff182a4c86fbb037bedb2e7bbaa0730521bbcdbdac40f"
+content-hash = "8709b89563329a51cfe5bc3f27e7b445689e951165236152dd309274327eaf58"
 
 [metadata.files]
 aiohttp = []
@@ -606,6 +617,7 @@ openapi-schema-pydantic = []
 packaging = []
 pathspec = []
 platformdirs = []
+pyairtable = []
 pydantic = []
 pygments = []
 python-dotenv = []

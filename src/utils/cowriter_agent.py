@@ -5,6 +5,7 @@ from rich.console import Console
 from rich.prompt import Confirm, Prompt
 from langchain.prompts import PromptTemplate
 from langchain.callbacks import get_openai_callback
+from pyairtable import Table
 from src import logger
 from src.utils.llms import generate_sections_from_introduction, get_chain
 
@@ -28,10 +29,16 @@ class CowriterAgent(object):
             use_streaming=True if not autopilot else False,
         )
         self.console = Console()
+        self.creation_date = str(datetime.now().replace(microsecond=0))
         self.file_name = os.path.join(
             output_folder,
-            f"{self.topic}_{str(datetime.now().replace(microsecond=0))}.md",
+            f"{self.topic}_{self.creation_date}.md",
         )
+        self.saved_data = {
+            "topic": self.topic,
+            "date": self.creation_date,
+        }
+
         if self.autopilot:
             logger.info("starting CowriterAgent in autopilot mode")
 
@@ -115,6 +122,14 @@ class CowriterAgent(object):
             with open(self.file_name, "a") as f:
                 f.write(response)
 
+        if section_type == "intro":
+            self.saved_data["introduction"] = response
+            self.saved_data["full_content"] = response + "\n"
+        else:
+            self.saved_data["full_content"] = (
+                self.saved_data["full_content"] + "\n" + response
+            )
+
         if return_response:
             return response
 
@@ -149,3 +164,16 @@ class CowriterAgent(object):
                     default=True,
                 )
                 section_number += 1
+
+    def write_to_airtable(self):
+        logger.info("Saving to Airtable ... 💾 ")
+        self.saved_data["cost"] = self.total_cost
+        api_key = os.environ["AIRTABLE_API_KEY"]
+        base_id = os.environ["AIRTABLE_BASE_ID"]
+        table = Table(
+            api_key=api_key,
+            base_id=base_id,
+            table_name="articles",
+        )
+        table.create(self.saved_data)
+        logger.info("Data saved to Airtable ... ✅")

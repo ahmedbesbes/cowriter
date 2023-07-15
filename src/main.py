@@ -34,6 +34,13 @@ def main():
     )
     cowriter_agent.run()
 
+    write_to_airtable = Confirm.ask(
+        "[bold purple]Write to Airtable[bold purple/]",
+        default=True,
+    )
+    if write_to_airtable:
+        cowriter_agent.write_to_airtable()
+
 
 if __name__ == "__main__":
     main()

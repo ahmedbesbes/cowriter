@@ -93,9 +93,9 @@ python-versions = ">=3.7.0"
 
 [[package]]
 name = "click"
-version = "8.1.3"
+version = "8.1.5"
 description = "Composable command line interface toolkit"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.7"
 
@@ -357,7 +357,7 @@ test = ["appdirs (==1.4.4)", "covdefaults (>=2.3)", "pytest-cov (>=4.1)", "pytes
 name = "pyairtable"
 version = "1.5.0"
 description = "Python Client for the Airtable API"
-category = "main"
+category = "dev"
 optional = false
 python-versions = "*"
 
@@ -422,7 +422,7 @@ python-versions = ">=3.6"
 name = "requests"
 version = "2.31.0"
 description = "Python HTTP for Humans."
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.7"
 
@@ -562,7 +562,7 @@ typing-extensions = ">=3.7.4"
 name = "urllib3"
 version = "1.26.16"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*"
 
@@ -586,7 +586,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "8709b89563329a51cfe5bc3f27e7b445689e951165236152dd309274327eaf58"
+content-hash = "42bcfc5145ac512930ecd35364906608e9f2e9d439315471870085346b12b911"
 
 [metadata.files]
 aiohttp = []

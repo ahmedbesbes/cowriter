@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 from rich.prompt import Prompt, Confirm
-from src.utils.cowriter_agent import CowriterAgent
 from src.utils.display import intro, set_temperature
+from src.utils.cowriter_agent import AutoCowriterAgent, InteractiveCowriterAgent
 
 load_dotenv()
 
@@ -26,12 +26,20 @@ def main():
         default=False,
     )
 
-    cowriter_agent = CowriterAgent(
-        topic,
-        model_name=model_name,
-        autopilot=autopilot,
-        temperature=model_temperature,
-    )
+    if autopilot:
+        cowriter_agent = AutoCowriterAgent(
+            topic=topic,
+            model_name=model_name,
+            model_temperature=model_temperature,
+            save_to_disk=True,
+        )
+    else:
+        cowriter_agent = InteractiveCowriterAgent(
+            topic=topic,
+            model_name=model_name,
+            model_temperature=model_temperature,
+        )
+
     cowriter_agent.run()
 
     write_to_airtable = Confirm.ask(

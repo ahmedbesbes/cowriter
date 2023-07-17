@@ -24,7 +24,7 @@ if __name__ == "__main__":
         "--model_name",
         type=str,
         default="gpt3.5",
-        choices=["gpt3.5", "gpt4", "davinci"],
+        choices=["gpt3.5", "gpt4"],
     )
     argument_parser.add_argument(
         "--model_temperature",

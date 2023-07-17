@@ -12,6 +12,7 @@ class AutoCowriterAgent(BaseCowriterAgent):
         model_temperature,
         save_to_disk,
         output_folder="src/answers/",
+        write_intro_only=False,
     ):
         super().__init__(
             topic,
@@ -25,6 +26,7 @@ class AutoCowriterAgent(BaseCowriterAgent):
             use_streaming=True,
         )
         self.save_to_disk = save_to_disk
+        self.write_intro_only = write_intro_only
         self.chain = get_chain(
             self.model_name,
             temperature=self.model_temperature,
@@ -45,20 +47,6 @@ class AutoCowriterAgent(BaseCowriterAgent):
 
         logger.info(f"TOTAL COST : {self.total_cost}")
         return response
-
-    def run(self):
-        introduction = self.write_section(
-            section_type="intro",
-            return_response=True,
-            default_value=None,
-        )
-        sections = self._generate_sections(introduction)
-        for section in sections:
-            self.write_section(
-                default_value=section,
-                return_response=False,
-                section_type="section",
-            )
 
     def write_section(
         self,
@@ -82,3 +70,18 @@ class AutoCowriterAgent(BaseCowriterAgent):
 
         if return_response:
             return response
+
+    def run(self):
+        introduction = self.write_section(
+            section_type="intro",
+            return_response=True,
+            default_value=None,
+        )
+        if not self.write_intro_only:
+            sections = self._generate_sections(introduction)
+            for section in sections:
+                self.write_section(
+                    default_value=section,
+                    return_response=False,
+                    section_type="section",
+                )

@@ -31,6 +31,8 @@ class BaseCowriterAgent(object):
         self.saved_data = {
             "topic": self.topic,
             "date": self.creation_date,
+            "model_name": self.model_name,
+            "model_temperature": self.model_temperature,
         }
 
     def _prepare_query_for_introduction(self):

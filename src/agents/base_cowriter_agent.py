@@ -53,6 +53,9 @@ class BaseCowriterAgent(object):
             with get_openai_callback() as cb:
                 sections = generate_sections_from_introduction(introduction)
                 self.total_cost += cb.total_cost
+
+        logger.info(f"Generated sections : {sections}")
+
         return sections
 
     def _log_section_title(self, section_type: str, default_value: str):

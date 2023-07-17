@@ -1,7 +1,7 @@
+from argparse import ArgumentParser
 from dotenv import load_dotenv
 from src.utils.config import JobConfig
 from src.agents.auto_cowriter_agent import AutoCowriterAgent
-
 
 load_dotenv()
 
@@ -18,10 +18,24 @@ def run_job(config: JobConfig):
 
 
 if __name__ == "__main__":
-    config = JobConfig(
-        topic="python decorators",
-        model_name="gpt3.5",
-        model_temperature=0.8,
-        save_to_disk=False,
+    argument_parser = ArgumentParser()
+    argument_parser.add_argument("--topic", type=str, default="python decorators")
+    argument_parser.add_argument(
+        "--model_name",
+        type=str,
+        default="gpt3.5",
+        choices=["gpt3.5", "gpt4", "davinci"],
     )
+    argument_parser.add_argument(
+        "--model_temperature",
+        type=float,
+        default=0.8,
+    )
+    argument_parser.add_argument(
+        "--save_to_disk",
+        type=bool,
+        default=False,
+    )
+    args = argument_parser.parse_args()
+    config = JobConfig(**vars(args))
     run_job(config)

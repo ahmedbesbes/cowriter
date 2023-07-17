@@ -1,6 +1,6 @@
 from dotenv import load_dotenv
 from src.utils.config import JobConfig
-from src.utils.cowriter_agent import AutoCowriterAgent
+from src.agents.auto_cowriter_agent import AutoCowriterAgent
 
 
 load_dotenv()

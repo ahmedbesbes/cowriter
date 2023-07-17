@@ -1,7 +1,8 @@
 from dotenv import load_dotenv
 from rich.prompt import Prompt, Confirm
 from src.utils.display import intro, set_temperature
-from src.utils.cowriter_agent import AutoCowriterAgent, InteractiveCowriterAgent
+from src.agents.auto_cowriter_agent import AutoCowriterAgent
+from src.agents.interactive_cowriter_agent import InteractiveCowriterAgent
 
 load_dotenv()
 

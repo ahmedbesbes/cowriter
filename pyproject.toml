@@ -6,7 +6,7 @@ authors = ["Ahmed Besbes <ahmed.besbes@hotmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = ">=3.9,<3.9.7 || >3.9.7,<4.0"
 langchain = "^0.0.218"
 rich = "^13.4.2"
 python-dotenv = "^1.0.0"
@@ -18,6 +18,10 @@ click = "^8.1.5"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.3.0"
+
+
+[tool.poetry.group.front-end.dependencies]
+streamlit = "^1.24.1"
 
 [build-system]
 requires = ["poetry-core"]

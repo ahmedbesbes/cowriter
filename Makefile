@@ -11,3 +11,6 @@ run-cowriter-job:
 
 push-docker-image-to-artifact-registry:
 	@gcloud builds submit --tag gcr.io/$(PROJECT_ID)/run_cowriter_job
+
+run-app: 
+	@poetry run streamlit run src/app/main.py

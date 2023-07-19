@@ -26,6 +26,21 @@ ________________________________________________________________________________
     console.print(
         """
 Cowriter is your assistant in writing kickass blog post introductions and more :bulb:
+
+How it works? 
+
+- Type in something you're interested to write about
+- Configure the Cowriter agent 
+- Let the agent write for you
+
+Functionalities:
+
+- Custom prompts
+- Interactive or autopilot writing modes
+- Data saving to Airtable
+
+This tool is built with Langchain :parrot: and OpenAI :rocket:. It's meant to help you build drafts
+quickly. 
         """,
         style="bold",
     )

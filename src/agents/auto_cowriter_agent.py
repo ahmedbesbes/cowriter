@@ -1,3 +1,4 @@
+from pathlib import Path
 from langchain.callbacks import get_openai_callback
 from src import logger
 from src.utils.llms import get_chain
@@ -85,3 +86,9 @@ class AutoCowriterAgent(BaseCowriterAgent):
                     return_response=False,
                     section_type="section",
                 )
+
+        self.write_section(
+            default_value=Path("src/prompts/conclusion.prompt").read_text(),
+            return_response=False,
+            section_type="conclusion",
+        )

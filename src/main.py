@@ -43,6 +43,13 @@ def main():
 
     cowriter_agent.run()
 
+    save_as_gist = Confirm.ask(
+        "[bold purple]Save as Github Gist[bold purple/]",
+        default=True,
+    )
+    if save_as_gist:
+        cowriter_agent.save_as_gist()
+
     write_to_airtable = Confirm.ask(
         "[bold purple]Write to Airtable[bold purple/]",
         default=True,

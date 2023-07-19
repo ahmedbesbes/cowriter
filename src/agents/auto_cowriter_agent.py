@@ -49,6 +49,16 @@ class AutoCowriterAgent(BaseCowriterAgent):
         logger.info(f"TOTAL COST : {self.total_cost}")
         return response
 
+    def _format_section(self, section_type, text, default_value):
+        if section_type == "intro":
+            text += "\n"
+            text += "\n ------- \n"
+        elif section_type == "conclusion":
+            text = "\n" + "### Conclusion" + "\n" + text
+        else:
+            text = "\n" + f"### {default_value}" + "\n" + text
+        return text
+
     def write_section(
         self,
         section_type,
@@ -62,6 +72,11 @@ class AutoCowriterAgent(BaseCowriterAgent):
 
         self._log_section_title(section_type, default_value)
         response = self._run_chain_on_query(input_query)
+        response = self._format_section(
+            section_type,
+            response,
+            default_value,
+        )
 
         if self.save_to_disk:
             with open(self.file_name, "a") as f:

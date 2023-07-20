@@ -7,7 +7,7 @@ It first asks you about a topic of interest, then guides you through the process
 It can also go wild in autopilot mode (use this responsibly)
 
 <p align="center">
-    <img src="./assets/cowriter.png" width="90%">
+    <img src="./assets/cowriter.png" width="92%">
 </p>
 
 

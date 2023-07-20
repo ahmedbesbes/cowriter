@@ -37,7 +37,8 @@ Functionalities:
 
 - Custom prompts
 - Interactive or autopilot writing modes
-- Data saving to Airtable
+- Automatic extraction and recommendation of the article sections
+- Data saving to Airtable / Github Gist
 
 This tool is built with Langchain :parrot: and OpenAI :rocket:. It's meant to help you build drafts
 quickly. 

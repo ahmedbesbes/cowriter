@@ -1,5 +1,6 @@
 from dotenv import load_dotenv
 from rich.prompt import Prompt, Confirm
+from src import logger
 from src.utils.display import intro, set_temperature
 from src.agents.auto_cowriter_agent import AutoCowriterAgent
 from src.agents.interactive_cowriter_agent import InteractiveCowriterAgent
@@ -56,6 +57,8 @@ def main():
     )
     if write_to_airtable:
         cowriter_agent.write_to_airtable()
+
+    logger.info("Exiting Cowriter :wave:")
 
 
 if __name__ == "__main__":

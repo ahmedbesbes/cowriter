@@ -14,6 +14,7 @@ def run_job(config: JobConfig):
         save_to_disk=config.save_to_disk,
     )
     cowriter_agent.run()
+    cowriter_agent.save_as_gist()
     cowriter_agent.write_to_airtable()
 
 

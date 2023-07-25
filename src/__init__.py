@@ -1,7 +1,10 @@
 import logging
 import click
+from dotenv import load_dotenv
 from rich.logging import RichHandler
+from src.utils.display import intro
 
+load_dotenv()
 
 LOGGER_NAME = "cowriter"
 logging.basicConfig(
@@ -11,3 +14,5 @@ logging.basicConfig(
 )
 logger = logging.getLogger(LOGGER_NAME)
 logging.getLogger("numexpr").setLevel(logging.ERROR)
+
+intro()

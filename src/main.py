@@ -1,15 +1,21 @@
-from dotenv import load_dotenv
 from rich.prompt import Prompt, Confirm
+from rich.console import Console
 from src import logger
-from src.utils.display import intro, set_temperature
-from src.agents.auto_cowriter_agent import AutoCowriterAgent
-from src.agents.interactive_cowriter_agent import InteractiveCowriterAgent
+from src.utils.display import set_temperature
 
-load_dotenv()
+
+console = Console()
+with console.status(
+    "Importing the right packages ...\n",
+    spinner="aesthetic",
+    speed=1.5,
+    spinner_style="red",
+):
+    from src.agents.auto_cowriter_agent import AutoCowriterAgent
+    from src.agents.interactive_cowriter_agent import InteractiveCowriterAgent
 
 
 def main():
-    intro()
     topic = Prompt.ask(
         f"[bold purple]Type in a topic you are interested to write about 🖊️ [bold purple/]",
         default="python decorators",

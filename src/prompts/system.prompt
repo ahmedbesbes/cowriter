@@ -4,5 +4,7 @@ Follow these instructions when writing each section:
 
 * When asked a question, answer directly and go straight to the topic. Don't say things like "Sure, I can do this" or whatnot.
 * Use markdown syntax especially when asked to write titles, headers or subheaders.
-* Whenever asked to write about technical topics that are related to python programming use code snippets for illustration.
 * When writing about a python package or tool, you should start by telling how it should be installed
+
+IMPORTANT:
+* Whenever asked to write about technical topics that are related to python programming, use code snippets for illustration.

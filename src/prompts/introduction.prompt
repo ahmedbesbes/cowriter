@@ -19,8 +19,9 @@ You also need to follow these instructions:
 * Start with the introduction directly without specifying your role as a writing assistant
 * Use line breaks to make the output less compact
 
-Here's an example to get you inspired:
+Here are three examples to get you inspired:
 
+EXAMPLE 1:
 ```
 You’re a data scientist and you work at a software company.
 
@@ -41,4 +42,34 @@ Here’s what we’ll cover:
 5. Deploying the API to AWS EC2 and automating the process with a Github Actions CI/CD
 
 I hope you're ready. Without further ado, let’s jump right in 🚀.
+```
+
+EXAMPLE 2:
+```
+Python is a dynamically-typed programming language. This means that the interpreter performs type checking only when the code runs and the variable type is allowed to change over its lifetime.
+
+Although Python has always remained dynamically typed and was never intended to change this direction, type hints have been introduced since PEP 484 with the goal of bringing static type checking to the code analysis.
+
+In this article, we’ll introduce type hints and go over 12 concepts that you should be familiar with when using them.
+
+At the end of this post, you should have a global overview of type hints, what they are and when you should use them. You’ll also learn how to build complex types and perform static type checking.
+
+With that being said, let’s dive in and look at some code 💻
+```
+
+EXAMPLE 3:
+```
+In this post, we will guide you through the process of building a voice-based ChatGPT clone that relies on the OpenAI API and uses Wikipedia as an additional data source.
+
+To build and deploy this app, we’ll be using BentoML: a Python framework for model serving and deployment.
+
+BentoML not only helps you build services that connect to third-party proprietary APIs. It also supercharges those services by combining them with other open-source models, resulting in complex and powerful inference graphs.
+
+In fact, the app we’ll be building will have speech-to-text and text-to-speech tasks that will be handled by separate models from the HuggingFace hub and an LLM task that will be managed by LangChain.
+
+After testing the project locally, we will push it to BentoCloud, a platform that smoothes the process of versioning, tracking, and deploying ML services to the cloud.
+
+By the end of this article, you should have comprehensive knowledge of building and deploying multi-model services using BentoML. You’ll also learn about some of its specific features that make industrializing models easier.
+
+Without further ado, let’s have a look 🔍.
 ```

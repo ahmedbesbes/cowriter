@@ -1,3 +1,4 @@
+from pathlib import Path
 from rich.prompt import Confirm, Prompt
 from src import logger
 from src.utils.llms import get_chain
@@ -28,30 +29,6 @@ class InteractiveCowriterAgent(BaseCowriterAgent):
     def _run_chain_on_query(self, input_query: str):
         response = self.chain.run(input_query)
         return response
-
-    def run(self):
-        introduction = self.write_section(
-            section_type="intro",
-            return_response=True,
-            default_value=None,
-        )
-        sections = self._generate_sections(introduction)
-
-        add_section = Confirm.ask("Add a section ?", default=True)
-        section_number = 0
-        while add_section:
-            self.write_section(
-                default_value=sections[section_number]
-                if section_number < len(sections)
-                else None,
-                section_type="section",
-                return_response=False,
-            )
-            add_section = Confirm.ask(
-                "Add a section ?",
-                default=True,
-            )
-            section_number += 1
 
     def write_section(
         self,
@@ -96,3 +73,27 @@ class InteractiveCowriterAgent(BaseCowriterAgent):
 
         if return_response:
             return response
+
+    def run(self):
+        introduction = self.write_section(
+            section_type="intro",
+            return_response=True,
+            default_value=None,
+        )
+        sections = self._generate_sections(introduction)
+
+        add_section = Confirm.ask("Add a section ?", default=True)
+        section_number = 0
+        while add_section:
+            self.write_section(
+                default_value=sections[section_number]
+                if section_number < len(sections)
+                else Path("src/prompts/conclusion.prompt").read_text(),
+                section_type="section",
+                return_response=False,
+            )
+            add_section = Confirm.ask(
+                "Add a section ?",
+                default=True,
+            )
+            section_number += 1

@@ -7,8 +7,8 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.9"
-langchain = "^0.0.218"
 rich = "^13.4.2"
+langchain = "^0.0.247"
 python-dotenv = "^1.0.0"
 openai = "^0.27.8"
 tiktoken = "^0.4.0"
@@ -16,6 +16,7 @@ pyairtable = "^1.5.0"
 click = "^8.1.5"
 duckduckgo-search = "3.6.0"
 newspaper3k = "^0.2.8"
+chromadb = "^0.4.3"
 
 
 [tool.poetry.group.dev.dependencies]

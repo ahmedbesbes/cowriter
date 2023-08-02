@@ -1,8 +1,9 @@
 from rich.prompt import Prompt, Confirm
 from rich.console import Console
 from src import logger
-from src.utils.display import set_temperature
+from src.utils.display import intro, set_temperature
 
+intro()
 
 console = Console()
 with console.status(

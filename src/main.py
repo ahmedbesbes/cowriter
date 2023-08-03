@@ -19,7 +19,6 @@ with console.status(
 def main():
     topic = Prompt.ask(
         f"[bold purple]Type in a topic you are interested to write about 🖊️ [bold purple/]",
-        default="python decorators",
     )
 
     model_name = Prompt.ask(
@@ -35,6 +34,26 @@ def main():
         default=False,
     )
 
+    is_listicle = Confirm.ask(
+        "[bold purple]Is the article a listicle[bold purple/]",
+        default=False,
+    )
+
+    if is_listicle:
+        listicle_sections = []
+        add_listicle_section = True
+        section_number = 0
+        while add_listicle_section:
+            listicle_section = Prompt.ask(f"Section {section_number+1}")
+            listicle_sections.append(listicle_section)
+            section_number += 1
+            add_listicle_section = Confirm.ask(
+                "[bold purple]Add a listicle section [bold purple/]",
+                default=True,
+            )
+    else:
+        listicle_sections = None
+
     if autopilot:
         cowriter_agent = AutoCowriterAgent(
             topic=topic,
@@ -47,6 +66,7 @@ def main():
             topic=topic,
             model_name=model_name,
             model_temperature=model_temperature,
+            listicle_sections=listicle_sections,
         )
 
     cowriter_agent.run()
@@ -65,7 +85,7 @@ def main():
     if write_to_airtable:
         cowriter_agent.write_to_airtable()
 
-    logger.info("Exiting Cowriter :wave:")
+    logger.info("Exiting Cowriter 👋")
 
 
 if __name__ == "__main__":

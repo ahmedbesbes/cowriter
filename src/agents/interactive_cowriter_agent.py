@@ -12,6 +12,7 @@ class InteractiveCowriterAgent(BaseCowriterAgent):
         model_name="gpt3.5",
         model_temperature=0.8,
         output_folder="src/answers/",
+        listicle_sections=None,
     ):
         super().__init__(
             topic,
@@ -24,6 +25,7 @@ class InteractiveCowriterAgent(BaseCowriterAgent):
             temperature=self.model_temperature,
             use_streaming=True,
         )
+        self.listicle_sections = listicle_sections
         logger.info("Starting CowriterAgent in interactive mode")
 
     def _run_chain_on_query(self, input_query: str):
@@ -38,15 +40,22 @@ class InteractiveCowriterAgent(BaseCowriterAgent):
     ):
         if section_type == "intro":
             input_query = self._prepare_query_for_introduction()
+        elif section_type == "conclusion":
+            input_query = self._prepare_query_for_conclusion()
         else:
             input_query = Prompt.ask(
                 "What do you want to write in the next section?",
                 default=default_value,
             )
 
-        self._log_section_title(section_type, default_value)
+        self._log_section_title(section_type, input_query)
 
         response = self._run_chain_on_query(input_query)
+        response = self._format_section(
+            section_type,
+            response,
+            input_query,
+        )
 
         is_happy = Confirm.ask(
             "\n\nAre you happy with the answer?",
@@ -80,7 +89,11 @@ class InteractiveCowriterAgent(BaseCowriterAgent):
             return_response=True,
             default_value=None,
         )
-        sections = self._generate_sections(introduction)
+
+        if self.listicle_sections is None:
+            sections = self._generate_sections(introduction)
+        else:
+            sections = self.listicle_sections
 
         add_section = Confirm.ask("Add a section ?", default=True)
         section_number = 0
@@ -88,7 +101,7 @@ class InteractiveCowriterAgent(BaseCowriterAgent):
             self.write_section(
                 default_value=sections[section_number]
                 if section_number < len(sections)
-                else Path("src/prompts/conclusion.prompt").read_text(),
+                else None,
                 section_type="section",
                 return_response=False,
             )
@@ -97,3 +110,9 @@ class InteractiveCowriterAgent(BaseCowriterAgent):
                 default=True,
             )
             section_number += 1
+
+        self.write_section(
+            section_type="conclusion",
+            return_response=False,
+            default_value=None,
+        )

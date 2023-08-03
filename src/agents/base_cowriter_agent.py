@@ -45,6 +45,20 @@ class BaseCowriterAgent(object):
         input_query = prompt_introduction.format(topic=self.topic)
         return input_query
 
+    def _prepare_query_for_conclusion(self):
+        input_query = Path("src/prompts/conclusion.prompt").read_text()
+        return input_query
+
+    def _format_section(self, section_type, text, header):
+        if section_type == "intro":
+            text += "\n"
+            text += "\n ------- \n"
+        elif section_type == "conclusion":
+            text = "\n" + "### Conclusion" + "\n" + text
+        else:
+            text = "\n" + f"### {header}" + "\n" + text
+        return text
+
     def _generate_sections(self, introduction: str):
         with self.console.status(
             "Extracting the sections of the article ... \n",
@@ -63,6 +77,8 @@ class BaseCowriterAgent(object):
     def _log_section_title(self, section_type: str, default_value: str):
         if section_type == "intro":
             logger.info("generating introduction")
+        elif section_type == "conclusion":
+            logger.info("generating conclusion")
         else:
             logger.info(f"generating the following section: {default_value}")
 

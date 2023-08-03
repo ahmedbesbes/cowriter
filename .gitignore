@@ -161,3 +161,4 @@ cython_debug/
 answers/
 .DS_Store
 db/
+documents/

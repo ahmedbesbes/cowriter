@@ -1,3 +1,6 @@
+import json
+import time
+from datetime import datetime
 from rich.console import Console
 from rich.prompt import Prompt
 from duckduckgo_search import DDGS
@@ -8,7 +11,7 @@ from langchain.vectorstores import Chroma
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
-from langchain.llms import OpenAI
+from langchain.chat_models import ChatOpenAI
 from src import logger
 
 
@@ -53,6 +56,7 @@ class WebAgent(object):
 
     def load_articles(self):
         pages = search_webpages(self.query, self.max_pages)
+        export = []
         for page in pages:
             url = page["href"]
             full_text = extract_article_text(url)
@@ -61,7 +65,15 @@ class WebAgent(object):
                 metadata=page,
             )
             self.documents.append(document)
+            export.append(dict(document))
+
         logger.info(f"Loaded {len(self.documents)} documents")
+
+        dt = datetime.now()
+        unix_time = time.mktime(dt.timetuple())
+        filename = f"documents/{unix_time}_{self.query}.json"
+        with open(filename, "w") as f:
+            json.dump(export, f)
 
     def split_articles(self):
         splitter = CharacterTextSplitter(
@@ -91,7 +103,7 @@ class WebAgent(object):
         logger.info("Vector DB initialized")
 
     def setup_llm(self):
-        prompt_template = """Use the context below only to write a 300 word answer about the topic below.
+        prompt_template = """Use the provided context only to write an answer about the topic below.
         If you don't know the answer, simply say "I don't know how to answer the question".
         Don't use the context as is. You need to rephrase it.
         Context: {context}
@@ -102,16 +114,18 @@ class WebAgent(object):
             template=prompt_template,
             input_variables=["context", "topic"],
         )
-        llm = OpenAI(temperature=0)
+        llm = ChatOpenAI(temperature=0)
         chain = LLMChain(llm=llm, prompt=PROMPT)
         self.chain = chain
         logger.info("LLM initialized")
 
     def setup(self):
+        logger.info("WebAgent setup ... ⌛")
         self.load_articles()
         self.split_articles()
         self.setup_vector_db()
         self.setup_llm()
+        logger.info("WebAgent setup done ✅")
 
     def run(self):
         while True:
@@ -119,6 +133,7 @@ class WebAgent(object):
             docs = self.vector_db.similarity_search(topic, k=4)
             context = "\n $$$$$ \n".join([doc.page_content for doc in docs])
 
+            self.console.rule(style="red bold")
             for i, doc in enumerate(docs):
                 self.console.print(f"Document {i} :")
                 self.console.print(doc.metadata)
@@ -131,7 +146,7 @@ class WebAgent(object):
             }
 
             with self.console.status(
-                "Importing the right packages ...\n",
+                "Thinking and generating the answer ...\n",
                 spinner="aesthetic",
                 speed=1.5,
                 spinner_style="red",
@@ -144,6 +159,7 @@ class WebAgent(object):
 # only for demos
 
 if __name__ == "__main__":
+    console = Console()
     query = Prompt.ask("[red bold]Type in your search query[red bold/]")
     is_valid = False
     while not is_valid:
@@ -156,7 +172,8 @@ if __name__ == "__main__":
             is_valid = True
         except Exception as e:
             is_valid = False
-
+    console.rule(style="bold red")
     web_agent = WebAgent(query=query, max_pages=max_pages)
     web_agent.setup()
+    console.rule(style="bold red")
     web_agent.run()

@@ -103,7 +103,7 @@ class WebAgent(object):
         logger.info("Vector DB initialized")
 
     def setup_llm(self):
-        prompt_template = """Use the provided context only to write an answer about the topic below.
+        prompt_template = """Use the provided context as a help to write an answer about the topic below.
         If you don't know the answer, simply say "I don't know how to answer the question".
         Don't use the context as is. You need to rephrase it.
         Context: {context}

@@ -1,4 +1,3 @@
-from pathlib import Path
 from rich.prompt import Confirm, Prompt
 from src import logger
 from src.utils.config import ContentConfig

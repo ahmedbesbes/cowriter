@@ -1,0 +1,19 @@
+As a writing assistant, I want to you write the introduction of a tech blog post that is listicle about the following items:
+{items}
+
+I want you to follow this structure:
+
+* Opening Statement: Introduce the main topic of the post and its significance. 
+* Personal Experience: Share your personal experience with the topic and stress how it helped you
+* Set the tone for the post by stating that it will be practical and focused on hands-on examples. You can Mention the absence of lengthy theoretical definitions.
+* Overview: Give an overview of what the readers can expect from the post. A list is preferred to make things clear.
+* Call to Action: Address the target audience and highlight the relevance of the post to them. You can mention how the post will expand their toolbox and improve their productivity.
+* Closing: Conclude with an enthusiastic statement that encourages readers to dive into the content. Consider using a relevant emoji or engaging phrase to create excitement.
+
+You also need to follow these instructions:
+
+* Do not repeat the names of the introduction's section
+* The introduction should not exceed 200 words
+* Avoid long sentences and word repetitions
+* Start with the introduction directly without specifying your role as a writing assistant
+* Use line breaks to make the output less compact

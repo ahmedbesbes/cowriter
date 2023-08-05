@@ -25,18 +25,20 @@ def main():
     )
 
     if is_listicle:
-        topic = None
         listicle_sections = []
         add_listicle_section = True
         section_number = 0
         while add_listicle_section:
-            listicle_section = Prompt.ask(f"Section {section_number+1}")
-            listicle_sections.append(listicle_section)
-            section_number += 1
-            add_listicle_section = Confirm.ask(
-                "[bold purple]Add a listicle section [bold purple/]",
-                default=True,
+            section = Prompt.ask(
+                f"Section {section_number+1} (enter empty string to quit)"
             )
+            if section.strip() != "":
+                listicle_sections.append(section)
+                section_number += 1
+            else:
+                add_listicle_section = False
+
+        console.print(f"listicle sections : {listicle_sections}")
 
         with console.status(
             "Generating topic from this list",

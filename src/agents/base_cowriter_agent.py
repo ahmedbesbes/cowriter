@@ -8,18 +8,22 @@ from langchain.prompts import PromptTemplate
 from langchain.callbacks import get_openai_callback
 from pyairtable import Table
 from src import logger
+from src.utils.config import ContentConfig
 from src.utils.llms import generate_sections_from_introduction
 
 
 class BaseCowriterAgent(object):
     def __init__(
         self,
-        topic,
-        model_name="gpt3.5",
-        model_temperature=0.8,
-        output_folder="src/answers/",
+        content_config: ContentConfig,
+        model_name: str = "gpt3.5",
+        model_temperature: float = 0.8,
+        output_folder: str = "src/answers/",
     ):
-        self.topic = topic
+        self.content_config = content_config
+        self.topic = content_config.topic
+        self.is_listicle = content_config.is_listicle
+        self.listicle_sections = content_config.listicle_sections
         self.model_name = model_name
         self.model_temperature = model_temperature
         self.total_cost = 0
@@ -31,6 +35,7 @@ class BaseCowriterAgent(object):
             f"{self.topic}_{self.creation_date}.md",
         )
         self.saved_data = {
+            "is_listicle": self.is_listicle,
             "topic": self.topic,
             "date": self.creation_date,
             "model_name": self.model_name,
@@ -38,11 +43,19 @@ class BaseCowriterAgent(object):
         }
 
     def _prepare_query_for_introduction(self):
-        prompt_introduction = PromptTemplate(
-            input_variables=["topic"],
-            template=Path("src/prompts/introduction.prompt").read_text(),
-        )
-        input_query = prompt_introduction.format(topic=self.topic)
+        if self.is_listicle:
+            prompt_introduction = PromptTemplate(
+                input_variables=["items"],
+                template=Path("src/prompts/introduction_listicle.prompt").read_text(),
+            )
+            items = "- " + "\n- ".join(self.listicle_sections)
+            input_query = prompt_introduction.format(items=items)
+        else:
+            prompt_introduction = PromptTemplate(
+                input_variables=["topic"],
+                template=Path("src/prompts/introduction.prompt").read_text(),
+            )
+            input_query = prompt_introduction.format(topic=self.topic)
         return input_query
 
     def _prepare_query_for_conclusion(self):

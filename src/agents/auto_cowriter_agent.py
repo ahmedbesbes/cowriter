@@ -1,6 +1,7 @@
 from pathlib import Path
 from langchain.callbacks import get_openai_callback
 from src import logger
+from src.utils.config import ContentConfig
 from src.utils.llms import get_chain
 from src.agents.base_cowriter_agent import BaseCowriterAgent
 
@@ -8,7 +9,7 @@ from src.agents.base_cowriter_agent import BaseCowriterAgent
 class AutoCowriterAgent(BaseCowriterAgent):
     def __init__(
         self,
-        topic,
+        content_config: ContentConfig,
         model_name,
         model_temperature,
         save_to_disk,
@@ -16,7 +17,7 @@ class AutoCowriterAgent(BaseCowriterAgent):
         write_intro_only=False,
     ):
         super().__init__(
-            topic,
+            content_config,
             model_name,
             model_temperature,
             output_folder,
@@ -84,7 +85,11 @@ class AutoCowriterAgent(BaseCowriterAgent):
             default_value=None,
         )
         if not self.write_intro_only:
-            sections = self._generate_sections(introduction)
+            if self.listicle_sections is None:
+                sections = self._generate_sections(introduction)
+            else:
+                sections = self.listicle_sections
+
             for section in sections:
                 self.write_section(
                     default_value=section,

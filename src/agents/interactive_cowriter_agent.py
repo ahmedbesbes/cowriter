@@ -1,6 +1,7 @@
 from pathlib import Path
 from rich.prompt import Confirm, Prompt
 from src import logger
+from src.utils.config import ContentConfig
 from src.utils.llms import get_chain
 from src.agents.base_cowriter_agent import BaseCowriterAgent
 
@@ -8,14 +9,13 @@ from src.agents.base_cowriter_agent import BaseCowriterAgent
 class InteractiveCowriterAgent(BaseCowriterAgent):
     def __init__(
         self,
-        topic,
+        content_config: ContentConfig,
         model_name="gpt3.5",
         model_temperature=0.8,
         output_folder="src/answers/",
-        listicle_sections=None,
     ):
         super().__init__(
-            topic,
+            content_config,
             model_name,
             model_temperature,
             output_folder,
@@ -25,7 +25,6 @@ class InteractiveCowriterAgent(BaseCowriterAgent):
             temperature=self.model_temperature,
             use_streaming=True,
         )
-        self.listicle_sections = listicle_sections
         logger.info("Starting CowriterAgent in interactive mode")
 
     def _run_chain_on_query(self, input_query: str):
@@ -58,19 +57,21 @@ class InteractiveCowriterAgent(BaseCowriterAgent):
         )
 
         is_happy = Confirm.ask(
-            "\n\nAre you happy with the answer?",
+            "[bold red]\n\nAre you happy with the answer?[bold red]",
             default=True,
         )
         while not is_happy:
-            refine_query = Prompt.ask("\n\nTell us how to improve it")
+            refine_query = Prompt.ask(
+                "[bold red]\n\nTell us how to improve it[bold red/]"
+            )
             response = self._run_chain_on_query(refine_query)
             is_happy = Confirm.ask(
-                "\n\nAre you happy with the answer?",
+                "[bold red]\n\nAre you happy with the answer?[bold red/]",
                 default=True,
             )
 
         save = Confirm.ask(
-            "\n\nGreat, would you like to save this answer to a file?",
+            "[bold red]\n\nGreat, would you like to save this answer to a file?[bold red/]",
             default=True,
         )
 
@@ -95,7 +96,7 @@ class InteractiveCowriterAgent(BaseCowriterAgent):
         else:
             sections = self.listicle_sections
 
-        add_section = Confirm.ask("Add a section ?", default=True)
+        add_section = Confirm.ask("[bold red]Add a section ?[bold red/]", default=True)
         section_number = 0
         while add_section:
             self.write_section(
@@ -106,7 +107,7 @@ class InteractiveCowriterAgent(BaseCowriterAgent):
                 return_response=False,
             )
             add_section = Confirm.ask(
-                "Add a section ?",
+                "[bold red]Add a section ?[bold red/]",
                 default=True,
             )
             section_number += 1

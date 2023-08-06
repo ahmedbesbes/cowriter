@@ -13,7 +13,7 @@ class AutoCowriterAgent(BaseCowriterAgent):
         model_name,
         model_temperature,
         save_to_disk,
-        output_folder="answers/",
+        output_folder="data/answers/",
         write_intro_only=False,
     ):
         super().__init__(

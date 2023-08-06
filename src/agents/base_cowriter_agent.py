@@ -18,7 +18,7 @@ class BaseCowriterAgent(object):
         content_config: ContentConfig,
         model_name: str = "gpt3.5",
         model_temperature: float = 0.8,
-        output_folder: str = "answers/",
+        output_folder: str = "data/answers/",
     ):
         self.content_config = content_config
         self.topic = content_config.topic

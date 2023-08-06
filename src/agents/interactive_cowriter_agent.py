@@ -11,7 +11,7 @@ class InteractiveCowriterAgent(BaseCowriterAgent):
         content_config: ContentConfig,
         model_name="gpt3.5",
         model_temperature=0.8,
-        output_folder="answers/",
+        output_folder="data/answers/",
     ):
         super().__init__(
             content_config,

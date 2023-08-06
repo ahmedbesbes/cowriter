@@ -132,7 +132,7 @@ class BaseCowriterAgent(object):
             - model_temperature: {self.model_temperature}
             - model_name: {self.model_name}
             """,
-            "public": True,
+            "public": False,
             "files": {f"{self.topic}.md": {"content": self.saved_data["full_content"]}},
         }
 

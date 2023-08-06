@@ -64,6 +64,12 @@ class InteractiveCowriterAgent(BaseCowriterAgent):
                 "[bold red]\n\nTell us how to improve it[bold red/]"
             )
             response = self._run_chain_on_query(refine_query)
+            response = self._format_section(
+                section_type,
+                response,
+                input_query,
+            )
+
             is_happy = Confirm.ask(
                 "[bold red]\n\nAre you happy with the answer?[bold red/]",
                 default=True,

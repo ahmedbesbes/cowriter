@@ -25,18 +25,27 @@ def main():
     )
 
     if is_listicle:
-        listicle_sections = []
-        add_listicle_section = True
-        section_number = 0
-        while add_listicle_section:
-            section = Prompt.ask(
-                f"Section {section_number+1} (enter empty string to quit)"
-            )
-            if section.strip() != "":
-                listicle_sections.append(section)
-                section_number += 1
-            else:
-                add_listicle_section = False
+        load_sections_from_file = Confirm.ask("Load sections from file", default=False)
+
+        if load_sections_from_file:
+            file_path = Prompt.ask("Enter path")
+            with open(file_path, "r") as f:
+                listicle_sections = f.readlines()
+                listicle_sections = [section.strip() for section in listicle_sections]
+
+        else:
+            listicle_sections = []
+            add_listicle_section = True
+            section_number = 0
+            while add_listicle_section:
+                section = Prompt.ask(
+                    f"Section {section_number+1} (enter empty string to quit)"
+                )
+                if section.strip() != "":
+                    listicle_sections.append(section)
+                    section_number += 1
+                else:
+                    add_listicle_section = False
 
         console.print(f"listicle sections : {listicle_sections}")
 

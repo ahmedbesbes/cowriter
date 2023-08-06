@@ -71,7 +71,7 @@ class WebAgent(object):
 
         dt = datetime.now()
         unix_time = time.mktime(dt.timetuple())
-        filename = f"documents/{unix_time}_{self.query}.json"
+        filename = f"data/documents/{unix_time}_{self.query}.json"
         with open(filename, "w") as f:
             json.dump(export, f)
 

@@ -1,75 +1,14 @@
 from rich.prompt import Prompt, Confirm
-from rich.console import Console
 from src import logger
-from src.utils.config import ContentConfig
-from src.utils.display import intro, set_temperature
+from src.utils.display import get_content_config, intro, set_temperature
+from src.agents.auto_cowriter_agent import AutoCowriterAgent
+from src.agents.interactive_cowriter_agent import InteractiveCowriterAgent
 
 intro()
 
-console = Console()
-with console.status(
-    "Importing the right packages ...\n",
-    spinner="aesthetic",
-    speed=1.5,
-    spinner_style="red",
-):
-    from src.utils.llms import generate_topic_from_listicle_sections
-    from src.agents.auto_cowriter_agent import AutoCowriterAgent
-    from src.agents.interactive_cowriter_agent import InteractiveCowriterAgent
-
 
 def main():
-    is_listicle = Confirm.ask(
-        "[bold purple]Is the article a listicle[bold purple/]",
-        default=False,
-    )
-
-    if is_listicle:
-        load_sections_from_file = Confirm.ask("Load sections from file", default=False)
-
-        if load_sections_from_file:
-            file_path = Prompt.ask("Enter path")
-            with open(file_path, "r") as f:
-                listicle_sections = f.readlines()
-                listicle_sections = [section.strip() for section in listicle_sections]
-
-        else:
-            listicle_sections = []
-            add_listicle_section = True
-            section_number = 0
-            while add_listicle_section:
-                section = Prompt.ask(
-                    f"Section {section_number+1} (enter empty string to quit)"
-                )
-                if section.strip() != "":
-                    listicle_sections.append(section)
-                    section_number += 1
-                else:
-                    add_listicle_section = False
-
-        console.print(f"listicle sections : {listicle_sections}")
-
-        with console.status(
-            "Generating topic from this list",
-            spinner="aesthetic",
-            speed=1.5,
-            spinner_style="red",
-        ):
-            topic = generate_topic_from_listicle_sections(listicle_sections)
-
-        console.print(f"[red bold]Generated topic: {topic}[red bold/]")
-
-    else:
-        topic = Prompt.ask(
-            f"[bold purple]Type in a topic you are interested to write about 🖊️ [bold purple/]",
-        )
-        listicle_sections = None
-
-    content_config = ContentConfig(
-        is_listicle=is_listicle,
-        topic=topic,
-        listicle_sections=listicle_sections,
-    )
+    content_config = get_content_config()
 
     model_name = Prompt.ask(
         "[bold purple]Pick a model[bold purple/]",

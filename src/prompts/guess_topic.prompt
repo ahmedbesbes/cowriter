@@ -1,4 +1,5 @@
-Based on the following items that correspond to the blog post's sections, give this post's topic. 
+Based on the following items that correspond to the blog post's sections, give this post's topic.
+You should output the topic only and nothing more.
 The topic should be succinct.
 
 %Items

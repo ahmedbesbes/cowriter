@@ -76,8 +76,9 @@ def generate_sections_from_introduction(introduction: str):
 
 
 def generate_topic_from_listicle_sections(listicle_sections: list):
+    topics = [section["section_topic"] for section in listicle_sections]
     llm = ChatOpenAI(temperature=0.8)
-    items = "- " + "\n- ".join(listicle_sections)
+    items = "- " + "\n- ".join(topics)
     prompt = PromptTemplate(
         template=Path("src/prompts/guess_topic.prompt").read_text(),
         input_variables=["items"],

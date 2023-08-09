@@ -54,19 +54,28 @@ class AutoCowriterAgent(BaseCowriterAgent):
         self,
         section_type,
         return_response,
-        default_value,
+        section_data,
     ):
         if section_type == "intro":
             input_query = self._prepare_query_for_introduction()
+            section_topic = None
+        elif section_type == "conclusion":
+            input_query = self._prepare_query_for_conclusion()
+            section_topic = None
         else:
-            input_query = default_value
+            if self.is_listicle:
+                section_topic = section_data["section_topic"]
+                input_query = section_data["section_prompt"]
+            else:
+                section_topic = section_data
+                input_query = section_data
 
-        self._log_section_title(section_type, default_value)
+        self._log_section_title(section_type=section_type, title=section_topic)
         response = self._run_chain_on_query(input_query)
         response = self._format_section(
-            section_type,
-            response,
-            default_value,
+            section_type=section_type,
+            text=response,
+            header=section_topic,
         )
 
         if self.save_to_disk:
@@ -80,9 +89,9 @@ class AutoCowriterAgent(BaseCowriterAgent):
 
     def run(self):
         introduction = self.write_section(
+            section_data=None,
             section_type="intro",
             return_response=True,
-            default_value=None,
         )
         if not self.write_intro_only:
             if self.listicle_sections is None:
@@ -92,13 +101,13 @@ class AutoCowriterAgent(BaseCowriterAgent):
 
             for section in sections:
                 self.write_section(
-                    default_value=section,
+                    section_data=section,
                     return_response=False,
                     section_type="section",
                 )
 
         self.write_section(
-            default_value=Path("src/prompts/conclusion.prompt").read_text(),
-            return_response=False,
             section_type="conclusion",
+            return_response=False,
+            section_data=None,
         )

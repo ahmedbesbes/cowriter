@@ -22,6 +22,7 @@ class InteractiveCowriterAgent(BaseCowriterAgent):
         self.chain = get_chain(
             self.model_name,
             temperature=self.model_temperature,
+            is_listicle=self.is_listicle,
             use_streaming=True,
         )
         logger.info("Starting CowriterAgent in interactive mode")

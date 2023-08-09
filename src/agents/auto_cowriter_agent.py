@@ -1,4 +1,3 @@
-from pathlib import Path
 from langchain.callbacks import get_openai_callback
 from src import logger
 from src.utils.config import ContentConfig
@@ -22,16 +21,13 @@ class AutoCowriterAgent(BaseCowriterAgent):
             model_temperature,
             output_folder,
         )
-        self.chain = get_chain(
-            self.model_name,
-            temperature=self.model_temperature,
-            use_streaming=True,
-        )
+
         self.save_to_disk = save_to_disk
         self.write_intro_only = write_intro_only
         self.chain = get_chain(
             self.model_name,
             temperature=self.model_temperature,
+            is_listicle=self.is_listicle,
             use_streaming=False,
         )
         logger.info("Starting CowriterAgent in autopilot mode")

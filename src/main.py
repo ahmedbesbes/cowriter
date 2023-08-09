@@ -1,6 +1,7 @@
-from rich.prompt import Prompt, Confirm
+from rich.prompt import Confirm
 from src import logger
-from src.utils.display import get_content_config, intro, set_temperature
+from src.utils.display import intro
+from src.utils.menu import get_content_config, get_model_name, get_temperature
 from src.agents.auto_cowriter_agent import AutoCowriterAgent
 from src.agents.interactive_cowriter_agent import InteractiveCowriterAgent
 
@@ -9,14 +10,8 @@ intro()
 
 def main():
     content_config = get_content_config()
-
-    model_name = Prompt.ask(
-        "[bold purple]Pick a model[bold purple/]",
-        choices=["gpt3.5", "gpt4"],
-        default="gpt3.5",
-    )
-
-    model_temperature = set_temperature()
+    model_name = get_model_name()
+    model_temperature = get_temperature()
 
     autopilot = Confirm.ask(
         "[bold purple]Use autopilot mode[bold purple/]",

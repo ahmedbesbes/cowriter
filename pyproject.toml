@@ -17,6 +17,7 @@ click = "^8.1.5"
 duckduckgo-search = "3.6.0"
 newspaper3k = "^0.2.8"
 chromadb = "^0.4.3"
+simple-term-menu = "^1.6.1"
 
 
 [tool.poetry.group.dev.dependencies]

@@ -1,5 +1,7 @@
 import json
+import os
 from typing import Dict
+from simple_term_menu import TerminalMenu
 from rich.console import Console
 from rich.prompt import Prompt, Confirm
 from src.utils.config import ContentConfig
@@ -54,7 +56,11 @@ def get_content_config() -> ContentConfig:
         load_sections_from_file = Confirm.ask("Load sections from file", default=False)
 
         if load_sections_from_file:
-            file_path = Prompt.ask("Enter path")
+            files = os.listdir("data/listicles")
+            terminal_menu = TerminalMenu(files)
+            selected_index = terminal_menu.show()
+            selected_file = files[selected_index]
+            file_path = f"data/listicles/{selected_file}"
             listicle_sections = get_content_config_from_file(file_path)
         else:
             listicle_sections = get_content_config_from_cli()

@@ -34,25 +34,37 @@ class InteractiveCowriterAgent(BaseCowriterAgent):
         self,
         section_type,
         return_response,
-        default_value,
+        section_data,
     ):
         if section_type == "intro":
             input_query = self._prepare_query_for_introduction()
+            section_topic = None
         elif section_type == "conclusion":
             input_query = self._prepare_query_for_conclusion()
+            section_topic = None
         else:
+            if self.is_listicle:
+                section_topic = section_data["section_topic"]
+                section_prompt = section_data["section_prompt"]
+            else:
+                section_topic = section_data
+                section_prompt = section_data
+
             input_query = Prompt.ask(
                 "What do you want to write in the next section?",
-                default=default_value,
+                default=section_prompt,
             )
 
-        self._log_section_title(section_type, input_query)
+        self._log_section_title(
+            section_type=section_type,
+            title=section_topic,
+        )
 
         response = self._run_chain_on_query(input_query)
         response = self._format_section(
-            section_type,
-            response,
-            input_query,
+            section_type=section_type,
+            text=response,
+            header=section_topic,
         )
 
         is_happy = Confirm.ask(
@@ -65,9 +77,9 @@ class InteractiveCowriterAgent(BaseCowriterAgent):
             )
             response = self._run_chain_on_query(refine_query)
             response = self._format_section(
-                section_type,
-                response,
-                input_query,
+                section_type=section_type,
+                text=response,
+                header=section_topic,
             )
 
             is_happy = Confirm.ask(
@@ -93,7 +105,7 @@ class InteractiveCowriterAgent(BaseCowriterAgent):
         introduction = self.write_section(
             section_type="intro",
             return_response=True,
-            default_value=None,
+            section_data=None,
         )
 
         if self.listicle_sections is None:
@@ -104,8 +116,12 @@ class InteractiveCowriterAgent(BaseCowriterAgent):
         add_section = Confirm.ask("[bold red]Add a section ?[bold red/]", default=True)
         section_number = 0
         while add_section:
+            if self.is_listicle and section_number >= len(sections):
+                logger.info("Done writing the sections")
+                break
+
             self.write_section(
-                default_value=sections[section_number]
+                section_data=sections[section_number]
                 if section_number < len(sections)
                 else None,
                 section_type="section",
@@ -120,5 +136,5 @@ class InteractiveCowriterAgent(BaseCowriterAgent):
         self.write_section(
             section_type="conclusion",
             return_response=False,
-            default_value=None,
+            section_data=None,
         )

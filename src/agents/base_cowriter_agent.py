@@ -48,7 +48,8 @@ class BaseCowriterAgent(object):
                 input_variables=["items"],
                 template=Path("src/prompts/introduction_listicle.prompt").read_text(),
             )
-            items = "- " + "\n- ".join(self.listicle_sections)
+            topics = [section["section_topic"] for section in self.listicle_sections]
+            items = "- " + "\n- ".join(topics)
             input_query = prompt_introduction.format(items=items)
         else:
             prompt_introduction = PromptTemplate(
@@ -87,13 +88,13 @@ class BaseCowriterAgent(object):
 
         return sections
 
-    def _log_section_title(self, section_type: str, default_value: str):
+    def _log_section_title(self, section_type: str, title: str):
         if section_type == "intro":
             logger.info("generating introduction")
         elif section_type == "conclusion":
             logger.info("generating conclusion")
         else:
-            logger.info(f"generating the following section: {default_value}")
+            logger.info(f"generating the following section: {title}")
 
     def _add_section_to_saved_data(self, section_type, response):
         if section_type == "intro":

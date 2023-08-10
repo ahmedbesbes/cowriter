@@ -162,4 +162,5 @@ answers/
 .DS_Store
 db/
 documents/
-data/
+data/listicles/*
+!data/listicles/sample.json

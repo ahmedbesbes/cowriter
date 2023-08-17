@@ -33,6 +33,8 @@ Functionalities:
 - Custom prompts
 - Interactive or autopilot writing modes
 - Automatic extraction and recommendation of the article sections
+- Support for listicles (sections and corresponding prompts)
+- Web search to indentify candidate topics
 - Data saving to Airtable / Github Gist
 
 This tool is built with Langchain :parrot: and OpenAI :rocket:. It's meant to help you build drafts

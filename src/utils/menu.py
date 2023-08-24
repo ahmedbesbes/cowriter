@@ -102,7 +102,7 @@ def get_temperature():
 
         model_temperature = Prompt.ask(
             prompt_message,
-            default="0.8",
+            default="0.2",
         )
 
         try:

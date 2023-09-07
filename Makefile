@@ -21,7 +21,6 @@ build-image:
 push-docker-image-to-artifact-registry:
 	@gcloud builds submit --tag gcr.io/$(PROJECT_ID)/run_cowriter_job
 
-
 lint:
 	@poetry run black .
 

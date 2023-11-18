@@ -44,7 +44,7 @@ def get_chain(model_name, temperature, is_listicle, use_streaming=False):
         )
     elif model_name == "gpt4":
         llm = ChatOpenAI(
-            model_name="gpt-4",
+            model_name="gpt-4-1106-preview",
             temperature=temperature,
             streaming=use_streaming,
             callbacks=callbacks,

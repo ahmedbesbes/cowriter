@@ -15,7 +15,6 @@ def run_job(config: JobConfig):
     )
     cowriter_agent.run()
     cowriter_agent.save_as_gist()
-    cowriter_agent.write_to_airtable()
 
 
 if __name__ == "__main__":

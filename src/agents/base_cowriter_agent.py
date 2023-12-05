@@ -6,7 +6,6 @@ from pathlib import Path
 from rich.console import Console
 from langchain.prompts import PromptTemplate
 from langchain.callbacks import get_openai_callback
-from pyairtable import Table
 from src import logger
 from src.utils.config import ContentConfig
 from src.utils.llms import generate_sections_from_introduction
@@ -104,19 +103,6 @@ class BaseCowriterAgent(object):
             self.saved_data["full_content"] = (
                 self.saved_data["full_content"] + "\n" + response
             )
-
-    def write_to_airtable(self):
-        logger.info("Saving to Airtable ... 💾 ")
-        self.saved_data["cost"] = self.total_cost
-        api_key = os.environ["AIRTABLE_API_KEY"]
-        base_id = os.environ["AIRTABLE_BASE_ID"]
-        table = Table(
-            api_key=api_key,
-            base_id=base_id,
-            table_name="articles",
-        )
-        table.create(self.saved_data)
-        logger.info("Data saved to Airtable ... ✅")
 
     def save_as_gist(self):
         logger.info("Saving as Github gist ... ")

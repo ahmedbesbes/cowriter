@@ -61,6 +61,9 @@ class InteractiveCowriterAgent(BaseCowriterAgent):
             title=section_topic,
         )
 
+        if input_query is None:
+            return ""
+
         response = self._run_chain_on_query(input_query)
         response = self._format_section(
             section_type=section_type,

@@ -35,7 +35,7 @@ Functionalities:
 - Automatic extraction and recommendation of the article sections
 - Support for listicles (sections and corresponding prompts)
 - Web search to indentify candidate topics
-- Data saving to Airtable / Github Gist
+- Data saving to Github Gist
 
 This tool is built with Langchain :parrot: and OpenAI :rocket:. It's meant to help you build drafts
 quickly. 

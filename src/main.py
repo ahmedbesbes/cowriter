@@ -41,13 +41,6 @@ def main():
     if save_as_gist:
         cowriter_agent.save_as_gist()
 
-    write_to_airtable = Confirm.ask(
-        "[bold purple]Write to Airtable[bold purple/]",
-        default=True,
-    )
-    if write_to_airtable:
-        cowriter_agent.write_to_airtable()
-
     logger.info("Exiting Cowriter 👋")
 
 

@@ -93,3 +93,25 @@ def generate_topic_from_listicle_sections(listicle_sections: list):
     )
     topic = chain.run(items)
     return topic
+
+
+def format_section_prompt(input_query, additional_instructions):
+    prompt = """
+        Write a blog section about this topic: {input_query}
+        
+        Follow these instructions:
+        - Don't overuse bullet points
+        - Be illustrative, insightful 
+        - Don't spit out information. Instead, try to teach.
+
+        {additional_instructions}     
+    """
+
+    if additional_instructions is None:
+        prompt = prompt.format(input_query=input_query, additional_instructions="")
+    else:
+        prompt = prompt.format(
+            input_query=input_query,
+            additional_instructions=additional_instructions,
+        )
+    return prompt

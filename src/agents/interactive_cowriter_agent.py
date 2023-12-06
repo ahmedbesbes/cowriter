@@ -1,7 +1,7 @@
 from rich.prompt import Confirm, Prompt
 from src import logger
 from src.utils.config import ContentConfig
-from src.utils.llms import get_chain
+from src.utils.llms import format_section_prompt, get_chain
 from src.agents.base_cowriter_agent import BaseCowriterAgent
 
 
@@ -55,6 +55,12 @@ class InteractiveCowriterAgent(BaseCowriterAgent):
                 "What do you want to write in the next section?",
                 default=section_prompt,
             )
+            additional_instructions = Prompt.ask("Additional instructions?")
+
+            input_query = format_section_prompt(
+                input_query,
+                additional_instructions,
+            )
 
         self._log_section_title(
             section_type=section_type,
@@ -79,6 +85,13 @@ class InteractiveCowriterAgent(BaseCowriterAgent):
             refine_query = Prompt.ask(
                 "[bold red]\n\nTell us how to improve it[bold red/]"
             )
+            additional_instructions = Prompt.ask("Additional instructions?")
+
+            refine_query = format_section_prompt(
+                refine_query,
+                additional_instructions,
+            )
+
             response = self._run_chain_on_query(refine_query)
             response = self._format_section(
                 section_type=section_type,
